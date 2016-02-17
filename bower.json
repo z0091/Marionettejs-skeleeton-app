@@ -13,7 +13,9 @@
     "backbone-nested-model": "^2.0.4",
     "backbone.paginator": "^2.0.3",
     "requirejs": "^2.1.22",
-    "text": "requirejs-text#^2.0.14"
+    "text": "requirejs-text#^2.0.14",
+    "mocha": "^2.4.5",
+    "chai": "^3.5.0"
   },
   "devDependencies": {},
   "directory": "bower_components"
