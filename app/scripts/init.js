@@ -8,11 +8,14 @@ require.config({
         'backbone-nested-model': '../bower_components/backbone-nested-model/backbone-nested',
         'backbone.paginator': '../bower_components/backbone.paginator/lib/backbone.paginator.min',
         'backbone.stickit': '../bower_components/backbone.stickit/backbone.stickit',
+        'backbone.radio': '../bower_components/backbone.radio/build/backbone.radio',
         'marionette': '../bower_components/backbone.marionette/lib/backbone.marionette',
-        'modernizr': '../bower_components/modernizr/modernizr',
+        'modernizr': 'lib/modernizr',
         'hbs': '../bower_components/require-handlebars-plugin/hbs',
+        'text': '../bower_components/require-handlebars-plugin/hbs',
         'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
-        'tmpl': '../templates'
+        'tmpl': '../templates',
+        'radio.shim': 'lib/radio.shim'
     },
     shim: {
         underscore: {
@@ -24,7 +27,11 @@ require.config({
         }
     },
     hbs: {
-        disableI18n: true
+        disableI18n: true,
+        helperDirectory: '../template/helpers/',
+        i18nDirectory: 'i18n',
+        templateExtension: "hbs",
+        disableHelpers: false
     },
     deps: [
         'main',
