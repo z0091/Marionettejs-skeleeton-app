@@ -4,7 +4,9 @@ define(function (require) {
     var _ = require('underscore');
     var Marionette = require('marionette');
     var Backbone = require('backbone');
-    var Welcome_tmpl = require('hbs!tmpl/welcome');
+
+    var usersListTpl = require('hbs!tmpl/users_list');
+    var usersListItemTpl = require('hbs!tmpl/users_item');
 
     var App = new Marionette.Application();
 
@@ -14,30 +16,40 @@ define(function (require) {
     });
 
     /* Test model */
-    var TestModel = Backbone.Model.extend({
-        urlRoot: '/api/user',
+    var Users = Backbone.Collection.extend({
+        url: '/api/users'
+    });
 
-        defaults: {
-            name: 'Test_user_name'
-        }
+    var RowView = Marionette.ItemView.extend({
+        tagName: "tr",
+        template: usersListItemTpl
     });
 
     /* Test view */
-    var TestView = Marionette.ItemView.extend({
-        template: Welcome_tmpl,
+    var UsersList = Marionette.CompositeView.extend({
+        template: usersListTpl,
+        childViewContainer: "table",
+
+        collection: new Users(),
+        childView: RowView,
 
         ui: {
-            button: '.save_btn'
+            input_field: "input",
+            button: ".save_btn"
         },
 
         events: {
-            'click @ui.button': function() {
-                this.model.fetch();
-            }
-        },
+            'click @ui.button': function(event) {
+                event.preventDefault();
 
-        modelEvents: {
-            'change': 'render'
+                var name = this.ui.input_field.val();
+
+                if (name) {
+                    this.collection
+                        .add({"name": name})
+                        .save();
+                }
+            }
         }
     });
 
@@ -46,9 +58,9 @@ define(function (require) {
     });
 
     App.on("start", function () {
-        var view = new TestView({
-            model: new TestModel()
-        });
+        var view = new UsersList();
+
+        view.collection.fetch();
 
         App.getRegion('rgWrapper').show(view);
     });
